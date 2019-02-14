@@ -1,0 +1,139 @@
+"""Provides default value for input field."""
+directive @default(value: JSON!) on INPUT_FIELD_DEFINITION
+
+type CRMQuery {
+  user(id: Int!): User
+  organization(id: Int!): Organization
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type Organization {
+  country: String
+  mc_status: Boolean
+  gapps_enabled: Boolean
+  id: String
+  state: String
+  employee_count: String
+  website: String
+  currency_symbol: String
+  mobile: Float
+  currency_locale: String
+  primary_zuid: String
+  zgid: String
+  country_code: String
+  license_details: Organization_License_details
+  company_name: String
+  privacy_settings: Boolean
+  primary_email: String
+  iso_code: String
+}
+
+type Organization_License_details {
+  paid_expiry: String
+  users_license_purchased: Float
+  trial_type: String
+  trial_expiry: String
+  paid: Boolean
+  paid_type: String
+}
+
+type Query {
+  crm: CRMQuery
+}
+
+type User {
+  country: String
+  role: User_Role
+  customize_info: User_Customize_info
+  city: String
+  signature: String
+  name_format: String
+  language: String
+  locale: String
+  microsoft: Boolean
+  personal_account: Boolean
+  Isonline: Boolean
+  default_tab_group: String
+  Modified_By: User_Modified_By
+  street: String
+  alias: String
+  theme: User_Theme
+  id: String
+  state: String
+  fax: String
+  country_locale: String
+  first_name: String
+  email: String
+  zip: Float
+  decimal_separator: String
+  created_time: String
+  Modified_Time: String
+  website: String
+  time_format: String
+  offset: Float
+  profile: User_Profile
+  mobile: String
+  last_name: String
+  time_zone: String
+  created_by: User_Created_by
+  zuid: String
+  confirm: Boolean
+  full_name: String
+  territories: [JSON]
+  phone: String
+  dob: String
+  date_format: String
+  status: String
+}
+
+type User_Created_by {
+  name: String
+  id: String
+}
+
+type User_Customize_info {
+  notes_desc: String
+  show_right_panel: String
+  bc_view: String
+  show_home: Boolean
+  show_detail_view: Boolean
+  unpin_recent_item: String
+}
+
+type User_Modified_By {
+  name: String
+  id: String
+}
+
+type User_Profile {
+  name: String
+  id: String
+}
+
+type User_Role {
+  name: String
+  id: String
+}
+
+type User_Theme {
+  normal_tab: User_Theme_Normal_tab
+  selected_tab: User_Theme_Selected_tab
+  new_background: String
+  background: String
+  screen: String
+  type: String
+}
+
+type User_Theme_Normal_tab {
+  font_color: String
+  background: String
+}
+
+type User_Theme_Selected_tab {
+  font_color: String
+  background: String
+}
