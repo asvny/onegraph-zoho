@@ -1,6 +1,17 @@
-import axios from "axios";
-import oauth from "axios-oauth-client";
-// import tokenProvider from "axios-token-interceptor";
+import axios, { AxiosInstance, AxiosConfig } from "axios";
+import qs from "qs";
+
+function axiosOAuth(axios: AxiosInstance, { url, ...credentials }: AxiosConfig) {
+  const config = {
+    url,
+    method: "post",
+    data: qs.stringify(credentials)
+  };
+
+  return () => axios(config).then((res: any) => res.data);
+}
+
+let accessToken = process.env.ACCESS_TOKEN;
 
 const AxiosClient = axios.create({
   baseURL: process.env.API_DOMAIN
@@ -13,28 +24,41 @@ const CONFIG = {
   scope: process.env.SCOPE
 };
 
-export const getClientCredentials = oauth.client(AxiosClient, {
+export const getClientCredentials = axiosOAuth(AxiosClient, {
   ...CONFIG,
   redirect_uri: process.env.REDIRECT_URI,
   code: process.env.CODE,
   grant_type: "authorization_code"
 });
 
-export const getRefreshToken = oauth.client(AxiosClient, {
+export const getRefreshToken = axiosOAuth(AxiosClient, {
   ...CONFIG,
   refresh_token: process.env.REFRESH_TOKEN,
   grant_type: "refresh_token"
 });
 
-// const cache = tokenProvider.tokenCache(() => getRefreshToken().then((res: any) => res.body), {
-//   getMaxAge: (body: any) => body.expires_in * 1000
-// });
+AxiosClient.interceptors.request.use(config => {
+  config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : "";
+  return config;
+});
 
-// AxiosClient.interceptors.request.use(
-//   tokenProvider({
-//     getToken: cache,
-//     headerFormatter: (body: any) => "Bearer " + body.access_token
-//   })
-// );
+AxiosClient.interceptors.response.use(
+  response => response,
+  async error => {
+    const {
+      config,
+      response: { status }
+    } = error;
+
+    if (status === 401) {
+      let response = await getRefreshToken(config);
+      accessToken = response.access_token;
+
+      return AxiosClient.request(config);
+    } else {
+      return Promise.reject(error);
+    }
+  }
+);
 
 export default AxiosClient;

@@ -1,5 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
-import fetch from "node-fetch";
+import { AxiosResponse } from "axios";
+
+import fetcher from "../../fetcher";
 
 const organizationResponse = {
   country: "US",
@@ -29,15 +31,20 @@ const organizationResponse = {
   iso_code: "USD"
 };
 
+export type OrganizationResponseType = typeof organizationResponse;
 export const OrganizationTC = composeWithJson("Organization", organizationResponse);
 export const OrganizationGraphQLType = OrganizationTC.getType();
 export const OrganizationQueryFields = {
   organization: {
     type: OrganizationTC,
-    args: {
-      id: `Int!`
-    },
-    resolve: (_: any, args: any) =>
-      fetch(`https://swapi.co/api/people/${args.id}/`).then((r: any) => r.json())
+    resolve: async (_: any, _args: any) => {
+      try {
+        let response: AxiosResponse = await fetcher.get(`/org`);
+        console.log(response);
+        return response.data.org.pop();
+      } catch (err) {
+        return err.response;
+      }
+    }
   }
 };

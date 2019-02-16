@@ -1,15 +1,122 @@
 """Provides default value for input field."""
 directive @default(value: JSON!) on INPUT_FIELD_DEFINITION
 
+type Attachment {
+  id: String
+  Modified_By: String
+  Owner: String
+  Parent_Id: String
+  Created_Time: String
+  Modified_Time: String
+  Created_By: String
+  File_Name: String
+  Size: String
+  Owner_Name: String
+  Modified_By_Name: String
+  Created_By_Name: String
+}
+
+type Blueprint {
+  process_info: Blueprint_Process_info
+  transitions: [BlueprintField]
+}
+
+type Blueprint_Process_info {
+  field_id: String
+  is_continuous: Boolean
+  api_name: String
+  continuous: Boolean
+  field_label: String
+  name: String
+  column_name: String
+  field_value: String
+  id: String
+  field_name: String
+}
+
+type BlueprintField {
+  display_label: String
+  _type: String
+  data_type: String
+  column_name: JSON
+  personality_name: String
+  id: String
+  transition_sequence: Float
+  mandatory: Boolean
+  layouts: JSON
+  fields: [BlueprintTransition]
+}
+
+type BlueprintTransition {
+  next_transitions: [JSON]
+  percent_partial_save: Float
+  data: BlueprintTransition_Data
+  next_field_value: String
+  name: String
+  criteria_matched: Boolean
+  id: String
+  criteria_message: JSON
+}
+
+type BlueprintTransition_Data {
+  Attachments: String
+}
+
 type CRMQuery {
-  user(id: Int!): User
-  organization(id: Int!): Organization
+  user(id: String!): User
+  users: [User]
+  organization: Organization
+  note(module: String!, id: String!): Note
+  notes: [Note]
+  attachments(module: String!, id: String!): [Attachment]
+  blueprint(id: String!, module: String!): Blueprint
+  profile(id: String!): Profile
+  profiles: [Profile]
+  role(id: String!): Role
+  roles: [Role]
+  tags(module: String!): [Tag]
+  territories: [Territory]
 }
 
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
+
+type Note {
+  Owner: Note_Owner
+  Modified_By: Note_Modified_By
+  Modified_Time: String
+  Created_Time: String
+  Parent_Id: Note_Parent_Id
+  id: String
+  Created_By: Note_Created_By
+  Note_Title: String
+  Note_Content: String
+  se_module: String
+  followed: String
+  approval: JSON
+}
+
+type Note_Created_By {
+  name: String
+  id: String
+}
+
+type Note_Modified_By {
+  name: String
+  id: String
+}
+
+type Note_Owner {
+  name: String
+  id: String
+}
+
+type Note_Parent_Id {
+  name: String
+  id: String
+}
 
 type Organization {
   country: String
@@ -41,8 +148,71 @@ type Organization_License_details {
   paid_type: String
 }
 
+type Profile {
+  name: String
+  modified_by: JSON
+  description: String
+  id: String
+  category: Boolean
+}
+
 type Query {
   crm: CRMQuery
+}
+
+type Role {
+  display_label: String
+  name: String
+  id: String
+  reporting_to: JSON
+  admin_user: Boolean
+}
+
+type Tag {
+  created_by: Tag_Created_by
+  created_time: String
+  id: String
+  modified_by: Tag_Modified_by
+  modified_time: String
+  name: String
+}
+
+type Tag_Created_by {
+  id: String
+  name: String
+}
+
+type Tag_Modified_by {
+  id: String
+  name: String
+}
+
+type Territory {
+  created_time: String
+  modified_time: String
+  manager: Territory_Manager
+  parent_id: String
+  criteria: String
+  name: String
+  modified_by: Territory_Modified_by
+  description: String
+  id: String
+  created_by: Territory_Created_by
+}
+
+type Territory_Created_by {
+  name: String
+  id: String
+}
+
+type Territory_Manager {
+  name: String
+  id: String
+}
+
+type Territory_Modified_by {
+  name: String
+  id: String
 }
 
 type User {

@@ -91,8 +91,8 @@ export const UserQueryFields = {
     },
     resolve: async (_: any, args: any) => {
       try {
-        let response: AxiosResponse = await fetcher.get(`/users/${args.id}`);
-        return response.data["users"].pop();
+        let response = await fetcher.get(`/users/${args.id}`);
+        return response.data.users.pop();
       } catch (err) {
         return err.response;
       }
@@ -104,7 +104,7 @@ export const UserQueryFields = {
     resolve: async (_: any) => {
       try {
         let response: AxiosResponse = await fetcher.get(`/users`);
-        return response.data;
+        return response.data.users;
       } catch (err) {
         return err.response;
       }
