@@ -1,4 +1,3 @@
-// import { schemaComposer, EnumTypeComposer } from "graphql-compose";
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
