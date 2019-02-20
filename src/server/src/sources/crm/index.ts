@@ -9,6 +9,7 @@ import { ProfileQueryFields } from "./profile";
 import { RoleQueryFields } from "./role";
 import { TagQueryFields } from "./tag";
 import { TerritoryQueryFields } from "./territory";
+import { RecordQueryFields } from "./record";
 
 const CRMType = schemaComposer.createObjectTC({ name: "CRMQuery" });
 
@@ -21,7 +22,8 @@ CRMType.addFields({
   ...ProfileQueryFields,
   ...RoleQueryFields,
   ...TagQueryFields,
-  ...TerritoryQueryFields
+  ...TerritoryQueryFields,
+  ...RecordQueryFields
 });
 
 export default {

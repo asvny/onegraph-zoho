@@ -31,7 +31,7 @@ const noteResponse = {
     resolve: (source: any) => source.$se_module
   }),
   followed: () => ({
-    type: "String",
+    type: "Boolean",
     resolve: (source: any) => source.$followed
   }),
   approval: () => ({

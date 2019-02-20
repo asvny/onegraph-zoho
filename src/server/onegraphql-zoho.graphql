@@ -76,6 +76,10 @@ type CRMQuery {
   roles: [Role]
   tags(module: String!): [Tag]
   territories: [Territory]
+  record(id: String!, module: String!): Record
+  records(module: String!): [Record]
+  deletedRecords(module: String!): [RecordDeleted]
+  searchRecords(module: String!, criteria: String!): [RecordSearch]
 }
 
 """
@@ -94,7 +98,7 @@ type Note {
   Note_Title: String
   Note_Content: String
   se_module: String
-  followed: String
+  followed: Boolean
   approval: JSON
 }
 
@@ -158,6 +162,165 @@ type Profile {
 
 type Query {
   crm: CRMQuery
+}
+
+type Record {
+  Owner: Record_Owner
+  Ownership: String
+  Description: JSON
+  Account_Type: String
+  Rating: JSON
+  SIC_Code: JSON
+  Shipping_State: JSON
+  Website: JSON
+  Product: JSON
+  Employees: Float
+  Last_Activity_Time: String
+  Industry: String
+  Record_Image: JSON
+  Modified_By: Record_Modified_By
+  Account_Site: String
+  Phone: String
+  Billing_Country: JSON
+  Account_Name: String
+  id: String
+  Account_Number: String
+  Ticker_Symbol: JSON
+  Modified_Time: String
+  Billing_Street: JSON
+  Created_Time: String
+  Billing_Code: JSON
+  Vendor: Record_Vendor
+  Territories: [String]
+  Parent_Account: Record_Parent_Account
+  Shipping_City: String
+  Shipping_Country: JSON
+  Shipping_Code: JSON
+  Billing_City: String
+  Billing_State: String
+  Tag: [JSON]
+  Created_By: Record_Created_By
+  Fax: JSON
+  Annual_Revenue: JSON
+  Shipping_Street: JSON
+  approval: JSON
+  approved: Boolean
+  editable: Boolean
+  currency_symbol: String
+}
+
+type Record_Created_By {
+  name: String
+  id: String
+}
+
+type Record_Modified_By {
+  name: String
+  id: String
+}
+
+type Record_Owner {
+  name: String
+  id: String
+}
+
+type Record_Parent_Account {
+  name: String
+  id: String
+}
+
+type Record_Vendor {
+  name: String
+  id: String
+}
+
+type RecordDeleted {
+  deleted_by: RecordDeleted_Deleted_by
+  id: String
+  display_name: String
+  type: String
+  created_by: RecordDeleted_Created_by
+  deleted_time: String
+}
+
+type RecordDeleted_Created_by {
+  name: String
+  id: String
+}
+
+type RecordDeleted_Deleted_by {
+  name: String
+  id: String
+}
+
+type RecordSearch {
+  Account: JSON
+  Owner: RecordSearch_Owner
+  Company: JSON
+  Email: String
+  Visitor_Score: JSON
+  Last_Activity_Time: String
+  Industry: String
+  Street: String
+  Zip_Code: String
+  id: String
+  First_Visited_URL: JSON
+  Days_Visited: JSON
+  Created_Time: String
+  City: String
+  No_of_Employees: Float
+  State: String
+  Country: String
+  Last_Visited_Time: JSON
+  Created_By: RecordSearch_Created_By
+  Annual_Revenue: Float
+  Secondary_Email: String
+  Description: String
+  Number_Of_Chats: JSON
+  Rating: String
+  Website: String
+  Twitter: String
+  Average_Time_Spent_Minutes: JSON
+  Associated_Contacts: JSON
+  Salutation: String
+  First_Name: String
+  Lead_Status: String
+  Full_Name: String
+  Record_Image: JSON
+  Modified_By: RecordSearch_Modified_By
+  Skype_ID: String
+  Phone: String
+  Email_Opt_Out: Boolean
+  Designation: String
+  Modified_Time: String
+  Mobile: String
+  Prediction_Score: JSON
+  First_Visited_Time: JSON
+  Last_Name: String
+  Referrer: JSON
+  Lead_Source: String
+  Tag: [JSON]
+  Fax: String
+  approval: JSON
+  approved: Boolean
+  converted: Boolean
+  editable: Boolean
+  currency_symbol: String
+}
+
+type RecordSearch_Created_By {
+  name: String
+  id: String
+}
+
+type RecordSearch_Modified_By {
+  name: String
+  id: String
+}
+
+type RecordSearch_Owner {
+  name: String
+  id: String
 }
 
 type Role {
