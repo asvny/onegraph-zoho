@@ -1,7 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
-import fetcher from "../../fetcher";
+import fetcher from "./fetcher";
 
 const noteResponse = {
   Owner: {
@@ -57,7 +57,6 @@ export const NoteQueryFields = {
     resolve: async (_: any, args: any) => {
       try {
         let response: AxiosResponse = await fetcher.get(`/${args.module}/${args.id}/Notes`);
-        console.log(response);
         return response.data.data.pop();
       } catch (err) {
         return err.response;

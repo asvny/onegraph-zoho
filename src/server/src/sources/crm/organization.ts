@@ -1,7 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
-import fetcher from "../../fetcher";
+import fetcher from "./fetcher";
 
 const organizationResponse = {
   country: "US",
@@ -40,7 +40,6 @@ export const OrganizationQueryFields = {
     resolve: async (_: any, _args: any) => {
       try {
         let response: AxiosResponse = await fetcher.get(`/org`);
-        console.log(response);
         return response.data.org.pop();
       } catch (err) {
         return err.response;

@@ -1,7 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
-import fetcher from "../../fetcher";
+import fetcher from "./fetcher";
 
 const recordResponse = {
   Owner: {

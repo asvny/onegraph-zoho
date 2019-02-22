@@ -9,6 +9,7 @@
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+    "esModuleInterop": true,
 
     "noUnusedLocals": true,
     "noUnusedParameters": true,

@@ -11,29 +11,29 @@ function axiosOAuth(axios: AxiosInstance, { url, ...credentials }: Record<string
   return () => axios(config as AxiosRequestConfig).then((res: any) => res.data);
 }
 
-let accessToken = process.env.ACCESS_TOKEN;
+let accessToken = process.env.CRM_ACCESS_TOKEN;
 
 const AxiosClient = axios.create({
-  baseURL: process.env.API_DOMAIN
+  baseURL: "https://www.zohoapis.com/crm/v2/"
 });
 
 const CONFIG = {
   url: process.env.AUTH_DOMAIN + "oauth/v2/token",
-  client_id: process.env.CLIENT_ID,
-  client_secret: process.env.CLIENT_SECRET,
-  scope: process.env.SCOPE
+  client_id: process.env.CRM_CLIENT_ID,
+  client_secret: process.env.CRM_CLIENT_SECRET,
+  scope: process.env.CRM_SCOPE
 };
 
 export const getClientCredentials = axiosOAuth(AxiosClient, {
   ...CONFIG,
   redirect_uri: process.env.REDIRECT_URI,
-  code: process.env.CODE,
+  code: process.env.CRM_CODE,
   grant_type: "authorization_code"
 });
 
 export const getRefreshToken = axiosOAuth(AxiosClient, {
   ...CONFIG,
-  refresh_token: process.env.REFRESH_TOKEN,
+  refresh_token: process.env.CRM_REFRESH_TOKEN,
   grant_type: "refresh_token"
 });
 

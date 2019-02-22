@@ -48,12 +48,19 @@
 require('dotenv').config();
 
 const axios = require('axios');
-const oauth = require('axios-oauth-client');
+const qs = require('qs')
 
+function axiosOAuth(_axios, { url, ...credentials }) {
+  const config = {
+    url,
+    method: "post",
+    data: qs.stringify(credentials)
+  };
 
+  // console.log(qs.stringify(credentials))
 
-
-
+  return () => _axios(config).then((res) => res.data);
+}
 
 
 
@@ -63,11 +70,11 @@ const CONFIG = {
   url: process.env.AUTH_DOMAIN + "oauth/v2/token",
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
-  scope: process.env.SCOPE
+  // scope: process.env.SCOPE
 };
 
 
-const getClientCredentials = oauth.client(AxiosClient, {
+const getClientCredentials = axiosOAuth(AxiosClient, {
   url: process.env.AUTH_DOMAIN + "oauth/v2/token",
   client_id: process.env.CLIENT_ID,
   client_secret: process.env.CLIENT_SECRET,
@@ -75,7 +82,9 @@ const getClientCredentials = oauth.client(AxiosClient, {
   redirect_uri: process.env.REDIRECT_URI,
   code: process.env.CODE,
   grant_type: "authorization_code",
-
+  response_type: 'code',
+  access_type: 'offline',
+  prompt: 'consent'
 
 
 
@@ -90,7 +99,7 @@ const getClientCredentials = oauth.client(AxiosClient, {
 // redirect_uri: 'https://zoho.com',
 // code: '1000.c98ba53504c4151fc24fc053acac6838.70e77b87e9e261bfc24f8f1fd71dea2c'
 
-const getRefreshToken = oauth.client(AxiosClient, {
+const getRefreshToken = axiosOAuth(AxiosClient, {
   ...CONFIG,
   refresh_token: process.env.REFRESH_TOKEN,
   grant_type: "refresh_token"

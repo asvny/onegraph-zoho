@@ -1,7 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
-import fetcher from "../../fetcher";
+import fetcher from "./fetcher";
 
 const territoryResponse = {
   created_time: "2019-04-10T14:27:50+05:30",

@@ -1,7 +1,7 @@
 import { composeWithJson } from "graphql-compose-json";
 import { AxiosResponse } from "axios";
 
-import fetcher from "../../fetcher";
+import fetcher from "./fetcher";
 
 const profileResponse = {
   name: "Administrator",
@@ -24,7 +24,6 @@ export const ProfileQueryFields = {
     resolve: async (_: any, args: any) => {
       try {
         let response: AxiosResponse = await fetcher.get(`/profiles/${args.id}`);
-        console.log(response);
         return response.data.profiles.pop();
       } catch (err) {
         return err.response;
